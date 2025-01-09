@@ -65,7 +65,7 @@ def remove_pii_from_excel(input_file, output_file):
         print(f"An error occurred: {e}")
 
 # Example usage
-input_file = 'PII_Test_File.xlsx'  # Replace with your input file name
-output_file = 'cleaned_user_comments.xlsx'  # Replace with your desired output file name
+input_file = 'PII_Test_File.xlsx'
+output_file = 'cleaned_user_comments.xlsx' 
 remove_pii_from_excel(input_file, output_file)
 
