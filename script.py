@@ -17,7 +17,7 @@ def remove_pii(text):
     ssn_regex = r'\b(\d{3}-\d{2}-\d{4}|\d{9})\b'
     address_regex = r'\d+\s+[a-zA-Z]+\s+(Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Lane|Ln|Drive|Dr|Court|Ct|Square|Sq)\b'
 
-    # Remove PII using regex substitutions
+    # Redact PII using regex substitutions
     text = re.sub(email_regex, '[EMAIL REDACTED]', text)
     text = re.sub(ssn_regex, '[SSN REDACTED]', text)
     text = re.sub(address_regex, '[ADDRESS REDACTED]', text)
