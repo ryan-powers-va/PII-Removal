@@ -1,10 +1,13 @@
 import pandas as pd
 import re
 import spacy
+from transformers import pipeline
+
+# Load spaCy and Hugging Face NER model
+nlp = spacy.load("en_core_web_sm")
+ner_pipeline = pipeline("ner", model="dbmdz/bert-large-cased-finetuned-conll03-english", aggregation_strategy="simple")
 
 # Function to remove PII from text
-nlp = spacy.load("en_core_web_sm")
-
 def remove_pii(text):
     if not isinstance(text, str):
         return text
@@ -13,28 +16,36 @@ def remove_pii(text):
     email_regex = r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+'
     ssn_regex = r'\b(\d{3}-\d{2}-\d{4}|\d{9})\b'
     address_regex = r'\d+\s+[a-zA-Z]+\s+(Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Lane|Ln|Drive|Dr|Court|Ct|Square|Sq)\b'
-    # name_regex = r'\b[A-Z][a-z]+\s[A-Z][a-z]+\b'  # Simplified name regex
 
-     # NLP for name detection
-    def redact_names(text):
+    # Remove PII using regex substitutions
+    text = re.sub(email_regex, '[EMAIL REDACTED]', text)
+    text = re.sub(ssn_regex, '[SSN REDACTED]', text)
+    text = re.sub(address_regex, '[ADDRESS REDACTED]', text)
+
+    # Function to redact names using spaCy
+    def redact_names_spacy(text):
         doc = nlp(text)
         for ent in doc.ents:
             if ent.label_ == "PERSON":
                 text = text.replace(ent.text, "[NAME REDACTED]")
         return text
 
-    # Remove PII using regex substitutions
-    text = re.sub(email_regex, '[EMAIL REDACTED]', text)
-    text = re.sub(ssn_regex, '[SSN REDACTED]', text)
-    text = re.sub(address_regex, '[ADDRESS REDACTED]', text)
-    # text = re.sub(name_regex, '[NAME REDACTED]', text)
+    # Function to redact names using Hugging Face for lowercase names
+    def redact_names_huggingface(text):
+        text_with_capitalization = text.title()  # Temporarily capitalize for better NER detection
+        entities = ner_pipeline(text_with_capitalization)
+        for entity in entities:
+            if entity['entity_group'] == 'PER':  # 'PER' indicates a person name
+                text = text.replace(entity['word'].lower(), '[NAME REDACTED]')
+        return text
 
-    # Use spaCy for name redaction
-    text = redact_names(text)
+    # Redact names using spaCy and Hugging Face
+    text = redact_names_spacy(text)
+    text = redact_names_huggingface(text)
 
     return text
 
-# Load Excel file
+# Load Excel file and apply PII removal
 def remove_pii_from_excel(input_file, output_file):
     try:
         # Read Excel file into DataFrame
@@ -57,3 +68,4 @@ def remove_pii_from_excel(input_file, output_file):
 input_file = 'PII_Test_File.xlsx'  # Replace with your input file name
 output_file = 'cleaned_user_comments.xlsx'  # Replace with your desired output file name
 remove_pii_from_excel(input_file, output_file)
+
