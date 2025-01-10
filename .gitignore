@@ -39,4 +39,4 @@ venv/
 *.sublime-workspace
 *.sublime-project
 
-huggingFaceTest.py
+huggingFaceTest
