@@ -1,10 +1,20 @@
 import pandas as pd
 import re
 import spacy
+import os
 from transformers import pipeline
 
 # Load spaCy and Hugging Face NER model
-nlp = spacy.load("en_core_web_sm")
+def get_spacy_model():
+    try:
+        # Use __file__ if available, fallback to current working directory
+        script_dir = os.path.dirname(__file__) if "__file__" in globals() else os.getcwd()
+        model_path = os.path.join(script_dir, "spacy/data/en_core_web_sm/en_core_web_sm-3.8.0")
+        return spacy.load(model_path)
+    except OSError as e:
+        raise RuntimeError(f"Failed to load spaCy model: {e}")
+
+# Hugging Face NER Pipeline
 ner_pipeline = pipeline("ner", model="dbmdz/bert-large-cased-finetuned-conll03-english", aggregation_strategy="simple")
 
 # Function to remove PII from text
@@ -24,6 +34,7 @@ def remove_pii(text):
 
     # Function to redact names using spaCy
     def redact_names_spacy(text):
+        nlp = get_spacy_model()
         doc = nlp(text)
         for ent in doc.ents:
             if ent.label_ == "PERSON":
