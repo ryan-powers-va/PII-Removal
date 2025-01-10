@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PII Remover</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #fileUpload {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PII Remover</h1>
+    <p>Upload an Excel file to remove PII.</p>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileUpload" required>
+        <button type="submit">Upload and Process</button>
+    </form>
+    <div id="response"></div>
+    <script>
+        const form = document.getElementById("uploadForm");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const responseDiv = document.getElementById("response");
+
+            try {
+                const response = await fetch("/upload", {
+                    method: "POST",
+                    body: formData,
+                });
+                const result = await response.json();
+                if (result.success) {
+                    responseDiv.innerHTML = `<p>File processed successfully! Download your cleaned file: <a href="${result.output_file}" download>Download</a></p>`;
+                } else {
+                    responseDiv.innerHTML = `<p>Error: ${result.error}</p>`;
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `<p>Error uploading file: ${error}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

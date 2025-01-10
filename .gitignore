@@ -38,3 +38,5 @@ venv/
 .idea/
 *.sublime-workspace
 *.sublime-project
+
+huggingFaceTest.py
