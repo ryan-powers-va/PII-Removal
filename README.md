@@ -8,7 +8,7 @@ This script removes Personally Identifiable Information (PII) from text data in 
 
 ## How It Works
 ### Regex Matching:
-Detects and redacts structured PII (emails, SSNs, addresses) using regular expressions.
+Detects and redacts structured PII (emails, SSNs, addresses, phone numbers) using regular expressions.
 
 ### spaCy for Name Redaction:
 Identifies and redacts names using Named Entity Recognition (NER) for capitalized names.
