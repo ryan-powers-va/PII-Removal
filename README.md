@@ -18,10 +18,10 @@ Detects lowercase names by temporarily capitalizing the text for NER processing.
 
 ## Excel Integration:
 - Reads an input Excel file.
-- Applies the PII removal logic to the comment column.
+- Applies the PII removal logic to the 'comment' column.
 - Saves the cleaned data to a new Excel file.
 ## Usage
-- Use VSCode or similar environment (e.g. Google Colab). 
+- Use VSCode or similar environment. 
 - Input File: Place your PII in an excel file column named 'comment' (or rename the column with PII), replace the input file name (bottom of script.py file) with the name of the file containing PII. 
 - Run the script.
 - Output File: The cleaned Excel file will be saved with redacted PII in your chosen folder.
