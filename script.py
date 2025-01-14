@@ -41,7 +41,7 @@ def remove_pii(text):
                 text = text.replace(ent.text, "[NAME REDACTED]")
         return text
 
-    # Function to redact names using Hugging Face for lowercase names
+    # Function to target lowercase names using Hugging Face
     def redact_names_huggingface(text):
         text_with_capitalization = text.title()  # Temporarily capitalize for better NER detection
         entities = ner_pipeline(text_with_capitalization)

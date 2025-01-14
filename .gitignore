@@ -39,4 +39,9 @@ venv/
 *.sublime-workspace
 *.sublime-project
 
-huggingFaceTest
+# Other files to ignore
+!app.py
+!cleaned_user_comments.xlsx
+!spacy_test.py
+!PII_Test_File_cleaned.xlsx
+!huggingFaceTest.py

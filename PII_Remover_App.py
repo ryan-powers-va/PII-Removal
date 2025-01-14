@@ -1,5 +1,7 @@
 import logging
 import tkinter as tk
+from tkinter import ttk
+import time
 from tkinter import filedialog, messagebox
 from script import remove_pii_from_excel
 
@@ -43,8 +45,37 @@ def process_file():
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {e}")
 
+def show_progress():
+    # Create a progress window
+    progress_window = tk.Tk()
+    progress_window.overrideredirect(True)
+    progress_window.geometry("300x100")
+    progress_label = tk.Label(progress_window, text="Loading PII Remover...", font=("Arial", 14), bg="#f8f9fa")
+    progress_label.pack(pady=10)
+
+    # Create a progress bar
+    progress_bar = ttk.Progressbar(progress_window, orient="horizontal", length=250, mode="indeterminate")
+    progress_bar.pack(pady=10)
+    progress_bar.start(10)  # Start progress bar animation
+
+    # Center the progress window
+    screen_width = progress_window.winfo_screenwidth()
+    screen_height = progress_window.winfo_screenheight()
+    x = (screen_width // 2) - (300 // 2)
+    y = (screen_height // 2) - (100 // 2)
+    progress_window.geometry(f"+{x}+{y}")
+
+    # Simulate loading for a few seconds
+    progress_window.update()
+    time.sleep(3)  # Adjust duration as needed
+    progress_bar.stop()
+    progress_window.destroy()
+
 if __name__ == "__main__":
     try:
+        # Show progress bar
+        show_progress()
+
         # Create the main GUI window
         app = tk.Tk()
         app.title("PII Remover")
