@@ -40,8 +40,8 @@ venv/
 *.sublime-project
 
 # Other files to ignore
-!app.py
-!cleaned_user_comments.xlsx
-!spacy_test.py
-!PII_Test_File_cleaned.xlsx
-!huggingFaceTest.py
+app.py
+cleaned_user_comments.xlsx
+spacy_test.py
+PII_Test_File_cleaned.xlsx
+huggingFaceTest.py
