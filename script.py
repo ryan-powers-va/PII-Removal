@@ -26,11 +26,13 @@ def remove_pii(text):
     email_regex = r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+'
     ssn_regex = r'\b(\d{3}-\d{2}-\d{4}|\d{9})\b'
     address_regex = r'\d+\s+[a-zA-Z]+\s+(Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Lane|Ln|Drive|Dr|Court|Ct|Square|Sq)\b'
+    phone_regex = r'\b(?:\+?1[-.\s]?)?(?:\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}\b'
 
     # Redact PII using regex substitutions
     text = re.sub(email_regex, '[EMAIL REDACTED]', text)
     text = re.sub(ssn_regex, '[SSN REDACTED]', text)
     text = re.sub(address_regex, '[ADDRESS REDACTED]', text)
+    text = re.sub(phone_regex, '[PHONE REDACTED]', text)
 
     # Function to redact names using spaCy
     def redact_names_spacy(text):
@@ -76,7 +78,7 @@ def remove_pii_from_excel(input_file, output_file):
         print(f"An error occurred: {e}")
 
 # Example usage
-input_file = 'PII_Test_File.xlsx'
+input_file = 'PII_test_2.xlsx'
 output_file = 'cleaned_user_comments.xlsx' 
 remove_pii_from_excel(input_file, output_file)
 
