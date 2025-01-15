@@ -30,7 +30,9 @@ Detects lowercase names by temporarily capitalizing the text for NER processing.
 You may get errors if you don't have required packages downloaded. 
 - Python (avoid the absolute latest version and check the compatability of the libraries - I used 3.11 with this script which is a stable version with robust compatibility - past versions available on Python website).
 - The **requirements.txt** file should be all you need, it includes the spaCy language model via url.
-- Ensure the requirements file is in your VScode project directory, and run **pip install -r requirements.txt**
+- Ensure the requirements file is in your VScode project directory, and run
+  ```bash
+  pip install -r requirements.txt
 #### Libraries:
 To run this script, you need to install the following Python packages:
 
@@ -39,7 +41,6 @@ To run this script, you need to install the following Python packages:
 - transformers: From Hugging Face, for state-of-the-art Named Entity Recognition (NER).
 - openpyxl: Required by pandas for reading and writing Excel files.
 
-### **Install pandas, spacy, transformers, and openpyxl:** 
-pip install pandas spacy transformers openpyxl
-### **Download the spaCy language model:** 
+### Download the spaCy language model:
+```bash
 python -m spacy download en_core_web_sm
