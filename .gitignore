@@ -20,6 +20,7 @@ spacy/data/
 *.temp
 *.bak
 *.swp
+*.xlsx
 
 # System files
 .DS_Store
